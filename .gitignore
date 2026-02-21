@@ -1,0 +1,8 @@
+# Dossiers de compilation
+bin/
+obj/
+
+# Fichiers de configuration VS Code
+.vscode/
+
+# Publier le dossier de sortie

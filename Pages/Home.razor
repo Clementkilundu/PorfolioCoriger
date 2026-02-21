@@ -1,0 +1,236 @@
+﻿@page "/"
+@using MonPorfolio.Models
+@using System.ComponentModel.DataAnnotations
+@inject HttpClient Http
+
+<PageTitle>Porfolio</PageTitle>
+
+<div class="container my-5">
+
+    <!-- HERO SECTION -->
+    <section id="home" class="bg-light text-white p-4 p-md-5 rounded shadow position-relative overflow-hidden mb-5">
+        <div class="row align-items-center">
+            <div class="col-md-12 text-center mb-3 ">
+                <img src="Clement profile.png" alt="profile picture" height="200" class="rounded-circle border-light shadow-sm" />
+            </div>
+            <div class="col-md-7 text-center text-md-start mb-4 mb-md-0">
+                <h1 class="display-5 fw-bold text-black">
+                    Bonjour, je suis <span class="text-primary"> Clément Kilundu</span>
+                </h1>
+                <p class="fs-5 text-secondary">
+                    Développeur Full-Stack | Passionné par .NET
+                </p>
+                <div class="social">
+                    <a href="https://www.facebook.com/clement.kilundu.1/" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://wa.me/243995802729" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://bit.ly/4a71hjg" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/dCQQ_tRw" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.youtube.com/channel/UCiZ3IZvv9w9qg9C_2uc_2wQ" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+                <button class="btn btn-primary btn-lg mt-3">
+                    Voir mes projets
+                </button>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card bg-secondary text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">À propos</h5>
+                        <p class="card-text">
+                            Développeur orienté .NET, Blazor, MAUI et applications modernes.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Mes compétences</h5>
+                        <p class="card-text">
+                            C# / .NET, Blazor, MAUI, SQL, JavaScript, HTML, CSS, PHP / Laravel
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJETS -->
+    <section id="projet" class="mb-5">
+        <h2 class="fw-bold mb-4">Mes Projets</h2>
+
+        <div class="row g-4">
+            @foreach (var project in myProjects)
+            {
+                <div class="col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 shadow-sm ">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="rounded-circle me-3"
+                                     style="width:48px;height:48px;background-color:@project.Color;">
+                                    <img src="Clement profile.png" alt="Alternate Text" height="48" class="rounded-circle" />
+                                </div>
+                                <div>
+                                    <h5 class="card-title mb-0">@project.Title</h5>
+                                    <small class="text-muted">@project.ShortDescription</small>
+                                </div>
+                            </div>
+
+                            <p class="card-text">@project.Description</p>
+                            <div class="img-project mb-2 mt-2">
+                                <img src="@project.ImageUrl" alt="Alternate Text" />
+                            </div>
+                            <div class="text-center">
+                                <span class="badge bg-primary">
+                                    @project.TechStack
+                                </span>
+
+                                <span class="badge bg-success">
+                                    <a href="@project.demo" class="text-decoration-none text-white">Demo</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Contactez-moi</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                @if (isSubmitted)
+                {
+                    <div class="alert alert-success shadow">
+                        <h4>Merci !</h4>
+                        <p>Votre message a bien été envoyé. Je vous répondrai dès que possible.</p>
+                        <button class="btn btn-outline-success btn-sm" @onclick="() => isSubmitted = false">Envoyer un autre message</button>
+                    </div>
+                }
+                else
+                {
+                    <EditForm Model="@contactModel" OnValidSubmit="HandleSubmit" class="card p-4 shadow-sm">
+                        <DataAnnotationsValidator />
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Nom</label>
+                            <InputText @bind-Value="contactModel.Name" class="form-control" placeholder="Votre nom" />
+                            <ValidationMessage For="@(() => contactModel.Name)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <InputText @bind-Value="contactModel.Email" class="form-control" placeholder="nom@exemple.com" />
+                            <ValidationMessage For="@(() => contactModel.Email)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <InputTextArea @bind-Value="contactModel.Message" class="form-control" rows="4" placeholder="Comment puis-je vous aider ?" />
+                            <ValidationMessage For="@(() => contactModel.Message)" class="text-danger" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100" disabled="@isSending">
+                            @if (isSending)
+                            {
+                                <span class="spinner-border spinner-border-sm"></span> <span>Envoi...</span>
+                            }
+                            else
+                            {
+                                <span>Envoyer le message</span>
+                            }
+                        </button>
+                    </EditForm>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- FOOTER -->
+    <div class="text-center text-muted small py-4">
+        Heure actuelle :
+        @DateTime.Now.ToString("HH:mm:ss, dddd, MMMM d, yyyy")
+    </div>
+
+</div>
+
+@code {
+    private List<Project> myProjects = new()
+    {
+        new Project
+        {
+            Title = "App Multiplateforme pour Microcom",
+            ShortDescription = "Application Hybrid",
+            Description = "Application Blazor Hybrid permettant d’acheter la connexion internet en ligne chez Microcom.",
+            TechStack = ".NET MAUI & Blazor Hybrid",
+            Color = "#512bd4",
+             demo = "https://www.youtube.com/@clementkilundu",
+             ImageUrl = "colisée.jpg"
+        },
+        new Project
+        {
+            Title = "Auto pièce en ligne",
+            ShortDescription = "E-commerce",
+            Description = "Une plateforme de vente en ligne des pièces Auto-mobile à Bukavu",
+            TechStack = "PHP",
+            Color = "#25c2a0",
+             demo = "https://www.youtube.com/@clementkilundu",
+             ImageUrl = "colisée.jpg"
+        },
+        new Project
+        {
+            Title = "MyBuzz",
+            ShortDescription = "Gestion Commerciale",
+            Description = "Une plateforme Web de gestion commerciale pour les PME, que j'ai réalisé dans le cadre de mon travail de mémoire de licence",
+            TechStack = "Blazor",
+            Color = "#ff6b6b",
+            demo = "https://www.youtube.com/@clementkilundu",
+            ImageUrl = "colisée.jpg"
+        }
+    };
+
+    private ContactRequest contactModel = new();
+    private bool isSending = false;
+    private bool isSubmitted = false;
+
+    // Modèle de données avec validation
+    public class ContactRequest
+    {
+        [Required(ErrorMessage = "Le nom est obligatoire.")]
+        public string Name { get; set; } = "";
+
+        [Required(ErrorMessage = "L'email est obligatoire.")]
+        [EmailAddress(ErrorMessage = "Email invalide.")]
+        public string Email { get; set; } = "";
+
+        [Required(ErrorMessage = "Le message ne peut pas être vide.")]
+        [MinLength(10, ErrorMessage = "Le message est un peu court...")]
+        public string Message { get; set; } = "";
+    }
+
+    private async Task HandleSubmit()
+    {
+        isSending = true;
+
+        // Simulation ou envoi réel vers Formspree/Getform
+        // Remplacez 'VOTRE_ID' par l'ID reçu sur formspree.io
+        var response = await Http.PostAsJsonAsync("https://formspree.io/f/xdalwebd", contactModel);
+
+        if (response.IsSuccessStatusCode)
+        {
+            isSubmitted = true;
+            contactModel = new ContactRequest(); // Reset
+        }
+        else
+        {
+            // Optionnel : gérer l'erreur ici
+        }
+
+        isSending = false;
+    }
+}
