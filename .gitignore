@@ -1,8 +1,139 @@
-# Dossiers de compilation
-bin/
-obj/
+## ===============================
+## .gitignore pour .NET / Blazor / Visual Studio
+## ===============================
 
-# Fichiers de configuration VS Code
-.vscode/
+# --- Visual Studio ---
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.rsuser
+*.vsidx
+*.vsp
+*.vspx
+*.sap
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
-# Publier le dossier de sortie
+# --- Rider / JetBrains ---
+.idea/
+*.sln.iml
+
+# --- Résultats de compilation ---
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Ll]og/
+[Ll]ogs/
+out/
+publish/
+PublishScripts/
+
+# --- Dossiers de build Blazor / .NET ---
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+.nuget/
+
+# --- Tests ---
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+coverage*.json
+coverage*.xml
+*.coverage
+*.coveragexml
+TestResults/
+
+# --- Fichiers temporaires et caches ---
+*.log
+*.tmp
+*.tmp_proj
+*.temp
+*.cache
+*.pdb
+*.ilk
+*.obj
+*.pch
+*.idb
+*.tlog
+*_i.c
+*_p.c
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+.JustCode
+_NCrunch_*
+.axoCover/*
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
+# --- Fichiers de publication ---
+*.[Pp]ublish.xml
+*.pubxml
+*.publishproj
+*.azurePubxml
+PublishScripts/
+
+# --- Secrets et configuration locale (ne jamais publier) ---
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+*.env
+.env
+.env.*
+*.pfx
+*.snk
+
+# --- Node (si vous utilisez npm pour le CSS/JS) ---
+node_modules/
+npm-debug.log*
+
+# --- Azure ---
+.azure/
+.azurefunctions/
+local.settings.json
+
+# --- Fichiers système ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# --- Sauvegardes ---
+*.bak
+*.orig
+*.rej
+*~

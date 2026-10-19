@@ -1,49 +1,35 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="d-flex flex-column min-vh-100 bg-light">
+
+<div class="d-flex flex-column min-vh-100 bg-light">
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container-fluid">
-            <div class="navbar-brand d-flex align-items-center gap-3">
-                <span class="fw-bold fs-5 text-dark">
-                    Clément Kilundu
-                </span>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-5 text-dark" href="#home">Clément Kilundu</a>
 
-            <!-- Bouton hamburger -->
             <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav">
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Ouvrir le menu">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Menus + bouton CV regroupés dans le même collapse -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="d-flex flex-column flex-lg-row flex-md-column w-100 align-items-center">
-                    <ul class="navbar-nav  ms-auto">
-                        <li class="nav-item">
-                            <NavLink class="nav-link" href="#home">Accueil</NavLink>
-                        </li>
-                        <li class="nav-item">
-                            <NavLink class="nav-link" href="#home">À propos</NavLink>
-                        </li>
-                        <li class="nav-item">
-                            <NavLink class="nav-link" href="#projet">Projects</NavLink>
-                        </li>
-                        <li class="nav-item">
-                            <NavLink class="nav-link" href="#contact">Contact</NavLink>
-                        </li>
-                    </ul>
-
-                    <div >
-                        <a href="cv clement.pdf" target="_blank" class="btn btn-primary btn-sm">
+                <!-- data-bs-target=".navbar-collapse.show" referme le menu mobile après un clic -->
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2"
+                    data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                    <li class="nav-item"><a class="nav-link" href="#home">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projet">Projets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a href="cv-clement-kilundu.pdf" target="_blank" download class="btn btn-primary btn-sm">
                             <i class="fas fa-download"></i>
-                            Télecharger mon CV
+                            Télécharger mon CV
                         </a>
-                    </div>
-                </div>
-
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -56,12 +42,8 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-white text-center text-muted py-3 border-top">
+    <footer class="bg-white text-center text-muted small py-3 border-top">
         &copy; @DateTime.Now.Year Clément Kilundu. Tous droits réservés.
     </footer>
 
 </div>
-</div>
-
-
-
