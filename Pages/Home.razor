@@ -67,32 +67,41 @@
             @foreach (var project in myProjects)
             {
                 <div class="col-md-6 col-lg-4">
+                    <!-- h-100 garantit que toutes les cartes de la ligne ont la même hauteur -->
                     <div class="card h-100 shadow-sm">
                         <div class="card-body d-flex flex-column">
+
+                            <!-- En-tête : Icône + Titre -->
                             <div class="d-flex align-items-center mb-3">
                                 <div class="rounded-circle d-flex align-items-center justify-content-center text-white me-3 flex-shrink-0"
                                      style="width:48px;height:48px;background-color:@project.Color;">
                                     <i class="@project.Icon"></i>
                                 </div>
                                 <div>
-                                    <h3 class="h5 card-title mb-0">@project.Title</h3>
+                                    <!-- min-height pour s'assurer que les titres de 1 ou 2 lignes prennent la même place -->
+                                    <h3 class="h5 card-title mb-0" style="min-height: 2.5rem;">@project.Title</h3>
                                     <small class="text-muted">@project.ShortDescription</small>
                                 </div>
                             </div>
 
-                            <p class="card-text">@project.Description</p>
+                            <!-- Description avec hauteur min et flex-grow pour caler le reste en bas -->
+                            <p class="card-text text-secondary flex-grow-1" style="min-height: 5rem;">
+                                @project.Description
+                            </p>
 
+                            <!-- Image du projet -->
                             @if (!string.IsNullOrWhiteSpace(project.ImageUrl))
                             {
                                 <div class="img-project mb-3">
-                                    <img src="@project.ImageUrl"
+                                    <img src="/@project.ImageUrl"
                                          alt="@(project.ImageAlt ?? $"Capture d'écran de {project.Title}")"
                                          loading="lazy"
-                                         class="img-fluid rounded"
-                                         style="width:100%;height:200px;object-fit:cover;" />
+                                         class="img-fluid rounded border"
+                                         style="width:100%;height:180px;object-fit:cover;" />
                                 </div>
                             }
 
+                            <!-- Technologies / Badges -->
                             <div class="d-flex flex-wrap gap-1 mb-3">
                                 @foreach (var tech in project.Technologies)
                                 {
@@ -100,7 +109,8 @@
                                 }
                             </div>
 
-                            <div class="mt-auto d-flex gap-2">
+                            <!-- Boutons d'action toujours alignés tout en bas grâce à mt-auto -->
+                            <div class="mt-auto d-flex gap-2 pt-2 border-top">
                                 @if (!string.IsNullOrWhiteSpace(project.DemoUrl))
                                 {
                                     <a href="@project.DemoUrl" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-sm">Voir la démo</a>
@@ -110,6 +120,7 @@
                                     <a href="@project.GithubUrl" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark btn-sm">Code source</a>
                                 }
                             </div>
+
                         </div>
                     </div>
                 </div>

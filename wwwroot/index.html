@@ -34,4 +34,16 @@
     <script src="_framework/blazor.web.js"></script>
 </body>
 
+<script>
+    function closeNavbar() {
+        var navbarCollapse = document.getElementById('navbarNav');
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            var bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse);
+            bsCollapse.hide();
+        }
+    }
+</script>
+
 </html>
+
+
