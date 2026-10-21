@@ -89,15 +89,19 @@
                                 @project.Description
                             </p>
 
-                            <!-- Image du projet -->
+                            <!-- Image du projet (Cliquable pour ouvrir la modale) -->
                             @if (!string.IsNullOrWhiteSpace(project.ImageUrl))
                             {
-                                <div class="img-project mb-3">
+                                <div class="img-project mb-3 position-relative">
                                     <img src="/@project.ImageUrl"
                                          alt="@(project.ImageAlt ?? $"Capture d'écran de {project.Title}")"
                                          loading="lazy"
-                                         class="img-fluid rounded border"
-                                         style="width:100%;height:180px;object-fit:cover;" />
+                                         class="img-fluid rounded border cursor-pointer"
+                                         style="width:100%;height:180px;object-fit:cover;cursor:pointer;"
+                                         @onclick='() => OpenImageModal($"/{project.ImageUrl}", project.Title)' />
+                                    <div class="position-absolute bottom-0 end-0 m-2 bg-dark bg-opacity-75 text-white px-2 py-1 rounded small" style="pointer-events: none;">
+                                        <i class="fas fa-search-plus"></i> Agrandir
+                                    </div>
                                 </div>
                             }
 
@@ -188,14 +192,33 @@
 
 </div>
 
+<!-- FENÊTRE MODALE BOOTSTRAP POUR L'IMAGE -->
+@if (isModalOpen)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.8);" @onclick="CloseImageModal">
+        <div class="modal-dialog modal-dialog-centered modal-lg" @onclick:stopPropagation="true">
+            <div class="modal-content bg-dark text-white border-0 shadow-lg">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">@modalTitle</h5>
+                    <button type="button" class="btn-close btn-close-white" aria-label="Fermer" @onclick="CloseImageModal"></button>
+                </div>
+                <div class="modal-body text-center p-2">
+                    <img src="@modalImageUrl" class="img-fluid rounded w-100" style="max-height: 75vh; object-fit: contain;" alt="@modalTitle" />
+                </div>
+                <div class="modal-footer border-secondary justify-content-center">
+                    <button type="button" class="btn btn-outline-light btn-sm" @onclick="CloseImageModal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 @code {
     private readonly string[] skills =
     {
         "C# / .NET", "Blazor", ".NET MAUI", "SQL", "JavaScript", "HTML / CSS", "PHP / Laravel"
     };
 
-    // TODO : remplacez ImageUrl par de vraies captures d'écran (ex. "images/microcom.png")
-    // TODO : remplacez DemoUrl par un lien propre à chaque projet et ajoutez GithubUrl si possible
     private readonly List<Project> myProjects = new()
     {
         new Project
@@ -226,7 +249,7 @@
             ShortDescription = "Site de Présentation",
             Description = "Mon site Web de présenation, celui-ci que vous consulter actuellement",
             Technologies = new() { ".Blazor" },
-            Icon = "fas fa-world",
+            Icon = "fas fa-globe",
             Color = "rgb(107, 255, 149)",
             ImageUrl = "porfolio.png",
             DemoUrl = "https://salmon-beach-041698810.2.azurestaticapps.net/"
@@ -237,6 +260,24 @@
     private bool isSending;
     private bool isSubmitted;
     private string? errorMessage;
+
+    // --- VARIABLES POUR LA MODALE D'IMAGE ---
+    private bool isModalOpen = false;
+    private string modalImageUrl = "";
+    private string modalTitle = "";
+
+    private void OpenImageModal(string imageUrl, string title)
+    {
+        modalImageUrl = imageUrl;
+        modalTitle = title;
+        isModalOpen = true;
+    }
+
+    private void CloseImageModal()
+    {
+        isModalOpen = false;
+    }
+    // ----------------------------------------
 
     public class ContactRequest
     {
